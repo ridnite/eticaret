@@ -1,10 +1,11 @@
 'use client'
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card } from "@/components/ui/card"
-import { Search, Shield, TrendingUp, Zap, HomeIcon, Car, Smartphone, Briefcase, Shirt, Gamepad2, Baby, Wrench } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Search, Shield, TrendingUp, Zap, HomeIcon, Car, Smartphone, Briefcase, Shirt, Gamepad2, Baby, Wrench, Heart, MapPin } from "lucide-react"
 
 const categories = [
   {
@@ -54,6 +55,63 @@ const categories = [
     icon: Wrench,
     count: "120K",
     color: "text-red-400",
+  },
+]
+
+const featuredListings = [
+  {
+    id: 1,
+    title: "3+1 Satılık Daire - Merkez",
+    price: "2.850.000 ₺",
+    location: "Kadıköy, İstanbul",
+    image: "/modern-apartment.png",
+    category: "Emlak",
+    isUrgent: true,
+  },
+  {
+    id: 2,
+    title: "2018 Model BMW 3.20i",
+    price: "1.250.000 ₺",
+    location: "Beşiktaş, İstanbul",
+    image: "/luxury-bmw-car.jpg",
+    category: "Vasıta",
+    isUrgent: false,
+  },
+  {
+    id: 3,
+    title: "iPhone 15 Pro Max 256GB",
+    price: "65.000 ₺",
+    location: "Çankaya, Ankara",
+    image: "/iphone-15-pro-max.png",
+    category: "Elektronik",
+    isUrgent: false,
+  },
+  {
+    id: 4,
+    title: "Yazılım Geliştirici - Remote",
+    price: "45.000 ₺/ay",
+    location: "İstanbul",
+    image: "/software-developer-workspace.jpg",
+    category: "İş İlanları",
+    isUrgent: true,
+  },
+  {
+    id: 5,
+    title: "Gaming Laptop - RTX 4070",
+    price: "85.000 ₺",
+    location: "Konak, İzmir",
+    image: "/gaming-laptop-setup.jpg",
+    category: "Elektronik",
+    isUrgent: false,
+  },
+  {
+    id: 6,
+    title: "Villa - Deniz Manzaralı",
+    price: "8.500.000 ₺",
+    location: "Bodrum, Muğla",
+    image: "/luxury-villa-sea-view.jpg",
+    category: "Emlak",
+    isUrgent: false,
   },
 ]
 
@@ -125,7 +183,7 @@ export default function Home() {
                 <Card
                   key={category.name}
                   className="p-6 hover:bg-accent/50 transition-colors cursor-pointer group border-border bg-card"
-                  onClick={() => router.push(`/`)} 
+                  onClick={() => router.push(`/`)}
                 >
                   <div className="flex flex-col items-center text-center space-y-3">
                     <div className={`p-3 rounded-full bg-muted/50 group-hover:bg-muted transition-colors`}>
@@ -139,6 +197,55 @@ export default function Home() {
                 </Card>
               )
             })}
+          </div>
+        </div>
+      </section>
+      <section className="py-12 w-full bg-muted/20">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold text-balance">Öne Çıkan İlanlar</h2>
+            <Button variant="outline">Tümünü Gör</Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredListings.map((listing) => (
+              <Card
+                key={listing.id}
+                className="overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer bg-card border-border"
+              >
+                <div className="relative">
+                  <img
+                    src={listing.image || "/placeholder.svg"}
+                    alt={listing.title}
+                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="absolute top-2 right-2 bg-background/80 hover:bg-background"
+                  >
+                    <Heart className="h-4 w-4" />
+                  </Button>
+                  {listing.isUrgent && (
+                    <Badge className="absolute top-2 left-2 bg-destructive text-destructive-foreground">Acil</Badge>
+                  )}
+                </div>
+
+                <CardContent className="p-4">
+                  <div className="space-y-2">
+                    <Badge variant="secondary" className="text-xs">
+                      {listing.category}
+                    </Badge>
+                    <h3 className="font-semibold text-card-foreground line-clamp-2">{listing.title}</h3>
+                    <p className="text-2xl font-bold text-primary">{listing.price}</p>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <MapPin className="h-4 w-4 mr-1" />
+                      {listing.location}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
